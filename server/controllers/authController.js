@@ -18,7 +18,7 @@ const registerUser = async (req, res) => {
     }
     
     const hashedPassword = await bcrypt.hash(password, 10);
-    console.log(hashedPassword)
+
 
     const user = await User.create({
     name : name ,
@@ -36,9 +36,9 @@ const token = jwt.sign(
     }
 );
 
-console.log(token)
 
-    console.log(existUser)
+
+   
     
 
     return res.status(200).json({
