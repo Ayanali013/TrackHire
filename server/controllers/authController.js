@@ -31,7 +31,7 @@ const token = jwt.sign(
         token 
     });
 };
-export { registerUser };
+
 
 const loginUser = async (req,res)=>{
     try {
@@ -39,12 +39,35 @@ const loginUser = async (req,res)=>{
 
         const user = await User.findOne({ email });
         console.log(user)
-
+            
         if (!user) {
             return res.status(400).json({
                 message: "Invalid email or password"
             });
         }
+        const pass = await bcrypt.compare(password , user.password)
+        const token = jwt.sign(
+    {
+        id: user._id
+    },
+    process.env.JWT_SECRET,
+    {
+        expiresIn: "7d"
+    }
+);
+
+        if (!pass ){
+            return res.status(400).json({
+                message: "Invalid email or password"
+            });
+        }
+            return res.status(200).json({
+                message :"Email Verified.",
+                token
+            })
+
+            
+        
 
         // Next step: compare password
     } catch (error) {
@@ -56,4 +79,4 @@ const loginUser = async (req,res)=>{
     }
 }
 
-export {loginUser};
+export {registerUser , loginUser};
