@@ -20,7 +20,9 @@ app.use("/api/jobs", jobRoutes);
 
 const PORT = process.env.PORT || 5000;
 
+
 app.listen(PORT, () => {
-  console.log("Server is running ", )
+  
+  console.log("Server is running ",  )
   console.log(`🚀 Server running on port ${PORT}`);
 });
