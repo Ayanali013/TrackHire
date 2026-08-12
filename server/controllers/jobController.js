@@ -42,7 +42,7 @@ const fetchJob = async (req, res) => {
       company: company,
     });
     if (!fetchingJob) {
-      return res.status(500).json({
+      return res.status(404).json({
         message: "You didnt applied for this job till now.",
       });
     }
@@ -58,15 +58,25 @@ const fetchJob = async (req, res) => {
 };
 
 const updateJob = async (req, res) => {
-  const id = req.params.id;
-  const updata = req.body;
-  const fetcheJob = await Job.findById({
-    id,
-  });
-  if (!fetcheJob) {
+  const {id} = req.params.id;
+  
+   const updatedJob = await Job.findByIdAndUpdate(
+            id,
+            req.body,
+            {
+                new: true,
+                runValidators: true
+            }
+        );
+  if (!updatedJob) {
     return res.status(500).json({
       message: "You didnt applied for this job till now.",
     });
+  }
+  if (Job.createdBy === id){
+
+
+
   }
 };
 
