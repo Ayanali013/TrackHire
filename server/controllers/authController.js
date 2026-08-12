@@ -2,8 +2,11 @@ import User from "../models/user.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
+// User Register :-
+
+
 const registerUser = async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password , role } = req.body;
   const existUser = await User.findOne({ email });
   if (existUser) {
     return res.json({
@@ -15,10 +18,19 @@ const registerUser = async (req, res) => {
     name: name,
     email: email,
     password: hashedPassword,
+    role : role 
   });
+  if (role && !["candidate", "recruiter"].includes(role)) {
+    return res.status(400).json({
+        success: false,
+        message: "Invalid role"
+    });
+};
+
   const token = jwt.sign(
     {
       id: user._id,
+      role: user.role
     },
     process.env.JWT_SECRET,
     {
@@ -30,6 +42,10 @@ const registerUser = async (req, res) => {
     token,
   });
 };
+
+
+//  User Login:- 
+
 
 const loginUser = async (req, res) => {
   try {
