@@ -66,12 +66,15 @@ const updateJob = async (req, res) => {
 
   const id = req.params.id;
 
-  console.log(id)
+  // console.log(id)
 
   const ownerCheck = await Job.findById(id)
-  console.log(ownerCheck.createdBy)
+
   
-    if (id === ownerCheck.createdBy ){
+  console.log(req.user.id)
+  console.log(ownerCheck.createdBy)
+
+    if (req.user.id === ownerCheck.createdBy.toString() ){
       return res.json({
         message: "You can update the Job"
       })

@@ -8,6 +8,6 @@ const router = express.Router();
 
 router.post("/", authMiddleware , roleMiddleware("recruiter"), createJob);
 router.get("/", fetchJob)
-router.put("/:id", updateJob)
+router.put("/:id", authMiddleware, roleMiddleware("recruiter"), updateJob)
 
 export default router;
