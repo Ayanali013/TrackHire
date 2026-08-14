@@ -63,20 +63,15 @@ const fetchJob = async (req, res) => {
 };
 
 const updateJob = async (req, res) => {
-
-  const id = req.params.id;
-
-  // console.log(id)
-
-  const ownerCheck = await Job.findById(id)
-
+try {
   
-  console.log(req.user.id)
-  console.log(ownerCheck.createdBy)
-
-    if (req.user.id === ownerCheck.createdBy.toString() ){
-
-          const updatedJob = await Job.findByIdAndUpdate(
+  const id = req.params.id;
+    
+  const ownerCheck = await Job.findById(id)
+  
+  if (req.user.id === ownerCheck.createdBy.toString() ){
+    
+    const updatedJob = await Job.findByIdAndUpdate(
       id,
       req.body,
       {
@@ -84,23 +79,65 @@ const updateJob = async (req, res) => {
         runValidators: true,
       }
     );
-
+    
     // 5. Updated job return
     return res.status(200).json({
       message: "Job updated successfully",
       job: updatedJob,
     });
     
-
-    }
-    else {
-      return res.json({
-        message: "You are not eligible ."
-      })
-    }
   }
+  else {
+    return res.json({
+      message: "You are not eligible ."
+    })
+  }
+} catch (error) {
+  console.log(error)
 
+    return res.status(500).json({
+      message: "Something Went Wrong in JOB Updation.",
+    });
+ 
+}
+}
+
+  const deleteJob = async (req, res )=>{
+    try {
+      const id = req.params.id;
+      const ownerCheck = await Job.findById(id)
+
+        if (!ownerCheck) {
+      return res.status(404).json({
+        message: "Job not found",
+      });
+    }
+
+      if (req.user.id === ownerCheck.createdBy.toString() ){
+
+            await Job.findByIdAndDelete(id);
+              await Job.findByIdAndDelete(id);
+
+    return res.status(200).json({
+      message: "Job deleted successfully",
+    });
+
+      }
+
+
+
+    } catch (error) {
+      
+      console.error(error);
+
+    return res.status(500).json({
+      message: "Somthing went wrong during deletion ..",
+    });
+    }
+
+
+  }
   
 
 
-export { createJob, fetchJob, updateJob };
+export { createJob, fetchJob, updateJob, deleteJob };
