@@ -3,6 +3,7 @@ import Job from "../models/jobs.js";
 const createJob = async (req, res) => {
   try {
     const { title, company, description, location, salary, skills } = req.body;
+    console.log(req.body)
 
     const existingJob = await Job.findOne({ title, company, location });
 
@@ -19,6 +20,7 @@ const createJob = async (req, res) => {
       location: location,
       salary: salary,
       skills: skills,
+      createdBy : req.user.id
     });
     return res.json({
       message: "Job Saved Succesfully.",
@@ -73,11 +75,7 @@ const updateJob = async (req, res) => {
       message: "You didnt applied for this job till now.",
     });
   }
-  if (Job.createdBy === id){
-
-
-
-  }
+  
 };
 
 export { createJob, fetchJob, updateJob };
