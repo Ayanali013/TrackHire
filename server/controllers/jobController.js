@@ -75,9 +75,22 @@ const updateJob = async (req, res) => {
   console.log(ownerCheck.createdBy)
 
     if (req.user.id === ownerCheck.createdBy.toString() ){
-      return res.json({
-        message: "You can update the Job"
-      })
+
+          const updatedJob = await Job.findByIdAndUpdate(
+      id,
+      req.body,
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+
+    // 5. Updated job return
+    return res.status(200).json({
+      message: "Job updated successfully",
+      job: updatedJob,
+    });
+    
 
     }
     else {
