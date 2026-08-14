@@ -22,9 +22,12 @@ const createJob = async (req, res) => {
       skills: skills,
       createdBy : req.user.id
     });
+
     return res.json({
       message: "Job Saved Succesfully.",
     });
+
+  
   } catch (error) {
     console.error(error);
 
@@ -60,22 +63,28 @@ const fetchJob = async (req, res) => {
 };
 
 const updateJob = async (req, res) => {
-  const {id} = req.params.id;
+
+  const id = req.params.id;
+
+  console.log(id)
+
+  const ownerCheck = await Job.findById(id)
+  console.log(ownerCheck.createdBy)
   
-   const updatedJob = await Job.findByIdAndUpdate(
-            id,
-            req.body,
-            {
-                new: true,
-                runValidators: true
-            }
-        );
-  if (!updatedJob) {
-    return res.status(500).json({
-      message: "You didnt applied for this job till now.",
-    });
+    if (id === ownerCheck.createdBy ){
+      return res.json({
+        message: "You can update the Job"
+      })
+
+    }
+    else {
+      return res.json({
+        message: "You are not eligible ."
+      })
+    }
   }
+
   
-};
+
 
 export { createJob, fetchJob, updateJob };

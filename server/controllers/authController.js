@@ -82,6 +82,8 @@ const loginUser = async (req, res) => {
     });
 
     // Next step: compare password
+
+    
   } catch (error) {
     console.error(error);
 
