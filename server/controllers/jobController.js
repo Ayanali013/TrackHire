@@ -68,6 +68,12 @@ try {
   const id = req.params.id;
     
   const ownerCheck = await Job.findById(id)
+  if (!ownerCheck) {
+      return res.status(404).json({
+        message: "Job not found",
+      });
+
+  
   
   if (req.user.id === ownerCheck.createdBy.toString() ){
     
@@ -91,8 +97,8 @@ try {
     return res.json({
       message: "You are not eligible ."
     })
-  }
-} catch (error) {
+    }}}
+   catch (error) {
   console.log(error)
 
     return res.status(500).json({

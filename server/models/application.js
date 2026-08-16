@@ -12,15 +12,18 @@ job:{
 
 },
 resume:{
+    type: String,
 
 },
 coverLetter:{
+    type: String,
 
 },
 status:{
+    type: String,
 
 },
-appliedAt:{
 
-}
+},{
+    timestamps: true,
 })
