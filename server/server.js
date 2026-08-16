@@ -5,7 +5,7 @@ import connectDB from "./config/db.js";
 import authRoutes from "./routes/authRoutes.js";
 import jobRoutes from "./routes/jobRoutes.js";
 import appRoutes from "./routes/appRoutes.js";
-import { applyJob } from "./controllers/appControllers.js";
+
 
 dotenv.config();
 
@@ -17,7 +17,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/api/auth", authRoutes);
-app.use("/api/application", applyJob);
+app.use("/api/application", appRoutes);
 app.use("/api/jobs", jobRoutes);
 
 
