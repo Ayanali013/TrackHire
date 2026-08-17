@@ -1,4 +1,5 @@
 import Application from "../models/application.js";
+import Job from "../models/jobs.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
@@ -79,4 +80,38 @@ const getJob = async (req, res) => {
   }
 };
 
-export { applyJob, getJob };
+// Recruiter will get the Job Update From this:-
+
+const getApplicants = async (req , res) => {
+
+  const JOBid = req.params.jobId;
+  console.log(JOBid)
+    
+  const findApply = await Job.findById(JOBid)
+  console.log(findApply)
+
+  if (!findApply){
+    return res.status(404).json({
+      message : "Job not Found."
+    })
+  }
+  console.log(findApply.createdBy)
+  console.log(req.user.id)
+  if (findApply.createdBy.toString() === req.user.id){
+    
+    const appList = await Application.find({
+      job: JOBid
+    })
+    return res.json ({
+      message : "Applicant list is given below.",
+       appList : appList
+    })
+  }else{
+    return res.status(403).json ({
+      message : "You didnt create this Job.",
+       
+    })
+  }
+}
+
+export { applyJob, getJob , getApplicants};
