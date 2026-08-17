@@ -11,6 +11,7 @@ const registerUser = async (req, res) => {
   if (existUser) {
     return res.json({
       message: "User already exist",
+    
     });
   }
   const hashedPassword = await bcrypt.hash(password, 10);

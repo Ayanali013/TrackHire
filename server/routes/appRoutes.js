@@ -7,8 +7,8 @@ import roleMiddleware from "../middleware/roleMiddlware.js";
 
 const router  = express.Router()
 
-router.post("/",authMiddleware , roleMiddleware("candidate"), applyJob);
-router.get("/my:id", authMiddleware , getJob);
+router.post("/:id",authMiddleware , roleMiddleware("candidate"), applyJob);
+router.get("/my:id", authMiddleware ,roleMiddleware("candidate"), getJob);
 
 
 

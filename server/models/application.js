@@ -21,6 +21,7 @@ coverLetter:{
 },
 status:{
     type: String,
+    default: "Applied",
 
 },
 
