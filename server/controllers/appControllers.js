@@ -102,7 +102,7 @@ const getApplicants = async (req , res) => {
     const appList = await Application.find({
       job: JOBid
     })
-    return res.json ({
+    return res .json ({
       message : "Applicant list is given below.",
        appList : appList
     })
@@ -114,4 +114,59 @@ const getApplicants = async (req , res) => {
   }
 }
 
-export { applyJob, getJob , getApplicants};
+// Recruiter Updating th status----------------
+
+
+const updateApplicationStatus = async (req, res) => {
+  try {
+
+   
+    const { applicationId } = req.params;
+    const { status } = req.body;
+
+    // 1. Find the application
+    const application = await Application.findById(applicationId);
+      console.log(application)
+    if (!application) {
+      return res.status(404).json({
+        message: "Application not found",
+      });
+    }
+
+    // 2. Find the job associated with this application
+    const job = await Job.findById(application.job);
+
+    if (!job) {
+      return res.status(404).json({
+        message: "Job not found",
+      });
+    }
+
+    // 3. Check whether this recruiter owns the job
+   
+    if (job.createdBy.toString() !== req.user.id) {
+      return res.status(403).json({
+        message: "You are not authorized to update this application",
+      });
+    }
+
+    // 4. Update application status
+    application.status = status;
+
+    await application.save();
+
+    return res.status(200).json({
+      message: "Application status updated successfully",
+      application,
+    });
+
+  } catch (error) {
+    console.error(error);
+
+    return res.status(500).json({
+      message: "Internal Server Error",
+    });
+  }
+};
+
+export { applyJob, getJob , getApplicants, updateApplicationStatus};
