@@ -169,4 +169,33 @@ const updateApplicationStatus = async (req, res) => {
   }
 };
 
-export { applyJob, getJob , getApplicants, updateApplicationStatus};
+
+// Candidate will get their all application:--------
+
+const getmyApplication = async (req, res) => {
+  try {
+    const applications = await Application.find({
+      applicant: req.user.id
+    });
+
+    if (applications.length === 0) {
+      return res.status(404).json({
+        message: "You have not applied for any job yet."
+      });
+    }
+
+    return res.status(200).json({
+      message: "Your applications fetched successfully.",
+      applications: applications
+    });
+
+  } catch (error) {
+    console.error(error);
+
+    return res.status(500).json({
+      message: "Internal Server Error"
+    });
+  }
+};
+
+export { applyJob, getJob , getApplicants, updateApplicationStatus, getmyApplication};
