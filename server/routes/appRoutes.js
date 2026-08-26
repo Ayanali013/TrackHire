@@ -11,7 +11,7 @@ router.post("/:id",authMiddleware , roleMiddleware("candidate"), applyJob);
 router.get("/my:id", authMiddleware ,roleMiddleware("candidate"), getJob);
 router.get("/job/:jobId" ,authMiddleware, roleMiddleware("recruiter"), getApplicants)
 router.patch("/:applicationId/status", authMiddleware, roleMiddleware("recruiter"), updateApplicationStatus)
-router.get("/my-applicarion", authMiddleware, roleMiddleware("candidate", getmyApplication))
+router.get("/all-application", authMiddleware, roleMiddleware("candidate"), getmyApplication)
 
 
 export default router;
