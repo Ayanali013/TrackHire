@@ -1,7 +1,6 @@
 import Application from "../models/application.js";
 import Job from "../models/jobs.js";
-import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
+
 
 const applyJob = async (req, res) => {
   try {
@@ -43,8 +42,6 @@ const applyJob = async (req, res) => {
 };
 
 //  GET YOUR JOB STATUS:-
-
-// 
 
 const getJob = async (req, res) => {
   try {
@@ -114,7 +111,7 @@ const getApplicants = async (req , res) => {
   }
 }
 
-// Recruiter Updating th status----------------
+// Recruiter Updating the status----------------
 
 
 const updateApplicationStatus = async (req, res) => {
@@ -154,6 +151,8 @@ const updateApplicationStatus = async (req, res) => {
     application.status = status;
 
     await application.save();
+
+    console.log("AFTER SAVE:", application);
 
     return res.status(200).json({
       message: "Application status updated successfully",
