@@ -1,26 +1,1045 @@
-@import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
+  margin: 0;
+  padding: 0;
   font-family: Arial, Helvetica, sans-serif;
+  background: #07070a;
+  color: white;
+  overflow-x: hidden;
 }
+
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ========================================
+   APP
+======================================== */
+
+.app {
+  min-height: 100svh;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+
+  background:
+    radial-gradient(
+      circle at 75% 45%,
+      rgba(93, 65, 255, 0.16),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 20% 80%,
+      rgba(0, 180, 255, 0.08),
+      transparent 30%
+    ),
+    #07070a;
+}
+
+/* ========================================
+   BACKGROUND
+======================================== */
+
+.background-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  pointer-events: none;
+}
+
+.orb-one {
+  width: clamp(180px, 30vw, 350px);
+  height: clamp(180px, 30vw, 350px);
+
+  top: -120px;
+  right: -100px;
+
+  background: rgba(90, 70, 255, 0.15);
+}
+
+.orb-two {
+  width: clamp(160px, 25vw, 300px);
+  height: clamp(160px, 25vw, 300px);
+
+  bottom: -120px;
+  left: -100px;
+
+  background: rgba(0, 150, 255, 0.1);
+}
+
+/* ========================================
+   NAVBAR
+======================================== */
+
+.navbar {
+  width: min(92%, 1250px);
+  min-height: 72px;
+
+  margin: 20px auto 0;
+  padding: 12px 22px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+
+  position: relative;
+  z-index: 20;
+
+  background: rgba(255, 255, 255, 0.045);
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+/* LOGO */
+
+.logo {
+  flex-shrink: 0;
+
+  font-size: clamp(21px, 2vw, 25px);
+  font-weight: 700;
+
+  letter-spacing: -1px;
+}
+
+.logo span {
+  opacity: 0.5;
+}
+
+/* NAV LINKS */
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: clamp(18px, 3vw, 35px);
+}
+
+.nav-links a {
+  color: rgba(255, 255, 255, 0.65);
+
+  text-decoration: none;
+
+  font-size: 14px;
+
+  white-space: nowrap;
+
+  transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+  color: white;
+}
+
+/* NAV ACTIONS */
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+
+  flex-shrink: 0;
+}
+
+.nav-actions a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 10px 16px;
+
+  border-radius: 10px;
+
+  text-decoration: none;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  white-space: nowrap;
+
+  transition:
+    transform 0.3s ease,
+    background 0.3s ease;
+}
+
+.candidate-btn {
+  color: white;
+
+  background: rgba(255, 255, 255, 0.08);
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.recruiter-btn {
+  color: #08080b;
+
+  background: white;
+}
+
+.nav-actions a:hover {
+  transform: translateY(-3px);
+}
+
+/* ========================================
+   HERO
+======================================== */
+
+.hero {
+  width: min(92%, 1250px);
+
+  min-height: calc(100svh - 112px);
+
+  margin: 0 auto;
+
+  display: grid;
+
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+
+  align-items: center;
+
+  gap: clamp(20px, 4vw, 80px);
+
+  position: relative;
+  z-index: 2;
+}
+
+/* ========================================
+   HERO CONTENT
+======================================== */
+
+.hero-content {
+  width: 100%;
+  max-width: 620px;
+}
+
+.tagline {
+  margin-bottom: clamp(18px, 2.5vw, 25px);
+
+  font-size: clamp(9px, 1vw, 11px);
+
+  letter-spacing: clamp(2px, 0.5vw, 4px);
+
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.hero h1 {
+  margin-bottom: clamp(20px, 3vw, 30px);
+
+  font-size: clamp(48px, 6.2vw, 90px);
+
+  line-height: 0.95;
+
+  letter-spacing: clamp(-4px, -0.35vw, -5px);
+
+  font-weight: 700;
+}
+
+.hero h1 span {
+  background: linear-gradient(
+    90deg,
+    #ffffff,
+    #7771ff
+  );
+
+  -webkit-background-clip: text;
+  background-clip: text;
+
+  color: transparent;
+}
+
+.description {
+  width: 100%;
+  max-width: 480px;
+
+  font-size: clamp(14px, 1.3vw, 16px);
+
+  line-height: 1.7;
+
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* ========================================
+   HERO BUTTONS
+======================================== */
+
+.hero-buttons {
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 12px;
+
+  margin-top: clamp(25px, 3vw, 35px);
+}
+
+.hero-buttons a {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  min-height: 50px;
+
+  padding: 13px 22px;
+
+  border-radius: 12px;
+
+  text-decoration: none;
+
+  font-size: 14px;
+
+  font-weight: 600;
+
+  transition:
+    transform 0.3s ease,
+    background 0.3s ease;
+}
+
+.primary-btn {
+  background: white;
+
+  color: #08080a;
+}
+
+.secondary-btn {
+  background: transparent;
+
+  border: 1px solid rgba(255, 255, 255, 0.15);
+
+  color: white;
+}
+
+.hero-buttons a:hover {
+  transform: translateY(-4px);
+}
+
+/* ========================================
+   3D VISUAL
+======================================== */
+
+.hero-visual {
+  width: 100%;
+  height: min(600px, 75vh);
+
+  min-height: 400px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  perspective: 1200px;
+}
+
+.scene {
+  width: min(500px, 42vw);
+  height: min(500px, 42vw);
+
+  min-width: 330px;
+  min-height: 330px;
+
+  position: relative;
+
+  transform-style: preserve-3d;
+
+  animation:
+    sceneFloat 7s ease-in-out infinite;
+}
+
+/* ========================================
+   MAIN ORB
+======================================== */
+
+.main-orb {
+  position: absolute;
+
+  width: 56%;
+  aspect-ratio: 1;
+
+  top: 20%;
+  left: 22%;
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle at 30% 25%,
+      rgba(255, 255, 255, 0.9),
+      rgba(120, 110, 255, 0.65) 18%,
+      rgba(35, 30, 100, 0.8) 55%,
+      #08080c 80%
+    );
+
+  box-shadow:
+    0 0 80px rgba(100, 90, 255, 0.35),
+    inset -30px -30px 60px rgba(0, 0, 0, 0.6);
+
+  transform-style: preserve-3d;
+
+  animation:
+    orbRotate 12s linear infinite;
+}
+
+.orb-shine {
+  width: 100%;
+  height: 100%;
+
+  border-radius: 50%;
+
+  border: 1px solid rgba(255, 255, 255, 0.15);
+
+  transform: translateZ(30px);
+}
+
+/* ========================================
+   RINGS
+======================================== */
+
+.ring {
+  position: absolute;
+
+  border: 1px solid rgba(150, 140, 255, 0.35);
+
+  border-radius: 50%;
+
+  transform-style: preserve-3d;
+
+  pointer-events: none;
+}
+
+.ring-one {
+  width: 84%;
+  height: 30%;
+
+  top: 33%;
+  left: 8%;
+
+  transform:
+    rotateX(65deg)
+    rotateZ(-20deg);
+
+  animation:
+    ringRotate 8s linear infinite;
+}
+
+.ring-two {
+  width: 70%;
+  height: 24%;
+
+  top: 38%;
+  left: 15%;
+
+  transform:
+    rotateX(65deg)
+    rotateZ(35deg);
+
+  animation:
+    ringRotateReverse 10s linear infinite;
+}
+
+/* ========================================
+   FLOATING CARDS
+======================================== */
+
+.floating-card {
+  position: absolute;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  padding: 13px 15px;
+
+  border-radius: 15px;
+
+  background: rgba(20, 20, 28, 0.72);
+
+  border: 1px solid rgba(255, 255, 255, 0.12);
+
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+
+  box-shadow:
+    0 20px 50px rgba(0, 0, 0, 0.4);
+
+  z-index: 5;
+
+  transform-style: preserve-3d;
+}
+
+.floating-card strong {
+  display: block;
+
+  font-size: clamp(11px, 1.2vw, 13px);
+
+  white-space: nowrap;
+}
+
+.floating-card small {
+  display: block;
+
+  margin-top: 4px;
+
+  color: rgba(255, 255, 255, 0.4);
+
+  font-size: clamp(8px, 0.9vw, 10px);
+
+  white-space: nowrap;
+}
+
+.card-one {
+  top: 14%;
+  left: 0;
+
+  transform:
+    translateZ(80px)
+    rotateY(12deg);
+
+  animation:
+    cardOne 5s ease-in-out infinite;
+}
+
+.card-two {
+  right: 0;
+  bottom: 14%;
+
+  transform:
+    translateZ(100px)
+    rotateY(-12deg);
+
+  animation:
+    cardTwo 6s ease-in-out infinite;
+}
+
+.card-icon {
+  width: 34px;
+  height: 34px;
+
+  min-width: 34px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 10px;
+
+  background: rgba(100, 90, 255, 0.2);
+}
+
+.avatar {
+  width: 34px;
+  height: 34px;
+
+  min-width: 34px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: rgba(255, 255, 255, 0.1);
+
+  font-size: 10px;
+}
+
+/* ========================================
+   PARTICLES
+======================================== */
+
+.particle {
+  position: absolute;
+
+  width: 8px;
+  height: 8px;
+
+  border-radius: 50%;
+
+  background: white;
+
+  box-shadow:
+    0 0 25px rgba(255, 255, 255, 0.7);
+}
+
+.particle-one {
+  top: 16%;
+  right: 20%;
+
+  animation:
+    particleFloat 4s ease-in-out infinite;
+}
+
+.particle-two {
+  bottom: 20%;
+  left: 16%;
+
+  animation:
+    particleFloat 5s ease-in-out infinite reverse;
+}
+
+.particle-three {
+  top: 50%;
+  right: 3%;
+
+  animation:
+    particleFloat 6s ease-in-out infinite;
+}
+
+/* ========================================
+   ANIMATIONS
+======================================== */
+
+@keyframes sceneFloat {
+  0%,
+  100% {
+    transform:
+      translateY(0)
+      rotateX(2deg);
+  }
+
+  50% {
+    transform:
+      translateY(-15px)
+      rotateX(-2deg);
+  }
+}
+
+@keyframes orbRotate {
+  from {
+    transform:
+      rotateY(0deg)
+      rotateX(0deg);
+  }
+
+  to {
+    transform:
+      rotateY(360deg)
+      rotateX(10deg);
+  }
+}
+
+@keyframes ringRotate {
+  from {
+    transform:
+      rotateX(65deg)
+      rotateZ(-20deg)
+      rotateY(0deg);
+  }
+
+  to {
+    transform:
+      rotateX(65deg)
+      rotateZ(-20deg)
+      rotateY(360deg);
+  }
+}
+
+@keyframes ringRotateReverse {
+  from {
+    transform:
+      rotateX(65deg)
+      rotateZ(35deg)
+      rotateY(360deg);
+  }
+
+  to {
+    transform:
+      rotateX(65deg)
+      rotateZ(35deg)
+      rotateY(0deg);
+  }
+}
+
+@keyframes cardOne {
+  0%,
+  100% {
+    transform:
+      translateY(0)
+      translateZ(80px)
+      rotateY(12deg);
+  }
+
+  50% {
+    transform:
+      translateY(-15px)
+      translateZ(100px)
+      rotateY(12deg);
+  }
+}
+
+@keyframes cardTwo {
+  0%,
+  100% {
+    transform:
+      translateY(0)
+      translateZ(100px)
+      rotateY(-12deg);
+  }
+
+  50% {
+    transform:
+      translateY(15px)
+      translateZ(120px)
+      rotateY(-12deg);
+  }
+}
+
+@keyframes particleFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-25px);
+  }
+}
+
+/* ========================================
+   TABLET
+   768px – 1024px
+======================================== */
+
+@media (max-width: 1024px) {
+
+  .navbar {
+    width: 94%;
+  }
+
+  .hero {
+    width: 94%;
+
+    gap: 20px;
+  }
+
+  .hero h1 {
+    font-size: clamp(48px, 7vw, 70px);
+  }
+
+  .hero-visual {
+    height: 500px;
+  }
+
+  .scene {
+    width: min(450px, 46vw);
+    height: min(450px, 46vw);
+  }
+}
+
+/* ========================================
+   MOBILE / TABLET
+   <= 767px
+======================================== */
+
+@media (max-width: 767px) {
+
+  .navbar {
+    width: calc(100% - 24px);
+
+    min-height: 64px;
+
+    margin-top: 12px;
+
+    padding: 10px 14px;
+
+    border-radius: 16px;
+  }
+
+  .nav-links {
+    display: none;
+  }
+
+  .nav-actions {
+    gap: 6px;
+  }
+
+  .nav-actions a {
+    padding: 9px 12px;
+
+    font-size: 11px;
+  }
+
+  .hero {
+    width: calc(100% - 24px);
+
+    min-height: auto;
+
+    grid-template-columns: 1fr;
+
+    gap: 10px;
+
+    text-align: center;
+
+    padding-top: 65px;
+  }
+
+  .hero-content {
+    max-width: 650px;
+
+    margin: 0 auto;
+  }
+
+  .tagline {
+    margin-bottom: 18px;
+  }
+
+  .hero h1 {
+    font-size: clamp(46px, 13vw, 68px);
+
+    letter-spacing: -4px;
+  }
+
+  .description {
+    margin: 0 auto;
+
+    max-width: 500px;
+
+    font-size: 14px;
+  }
+
+  .hero-buttons {
+    justify-content: center;
+  }
+
+  .hero-buttons a {
+    min-height: 48px;
+
+    padding: 12px 19px;
+  }
+
+  .hero-visual {
+    width: 100%;
+
+    height: 420px;
+
+    min-height: 380px;
+
+    margin-top: 10px;
+  }
+
+  .scene {
+    width: min(430px, 92vw);
+    height: min(430px, 92vw);
+
+    min-width: 300px;
+    min-height: 300px;
+  }
+}
+
+/* ========================================
+   SMALL MOBILE
+   <= 480px
+======================================== */
+
+@media (max-width: 480px) {
+
+  .navbar {
+    width: calc(100% - 16px);
+
+    margin-top: 8px;
+
+    padding: 9px 11px;
+  }
+
+  .logo {
+    font-size: 20px;
+  }
+
+  .nav-actions a {
+    padding: 8px 10px;
+
+    font-size: 10px;
+  }
+
+  .hero {
+    width: calc(100% - 20px);
+
+    padding-top: 55px;
+  }
+
+  .hero h1 {
+    font-size: clamp(42px, 14vw, 56px);
+
+    letter-spacing: -3px;
+  }
+
+  .description {
+    font-size: 13px;
+
+    line-height: 1.6;
+  }
+
+  .hero-buttons {
+    gap: 9px;
+  }
+
+  .hero-buttons a {
+    padding: 11px 15px;
+
+    font-size: 12px;
+  }
+
+  .hero-visual {
+    height: 340px;
+
+    min-height: 320px;
+
+    margin-top: 0;
+  }
+
+  .scene {
+    width: 330px;
+    height: 330px;
+
+    min-width: 330px;
+    min-height: 330px;
+  }
+
+  .floating-card {
+    padding: 10px 11px;
+
+    gap: 7px;
+  }
+
+  .card-one {
+    left: -5px;
+  }
+
+  .card-two {
+    right: -5px;
+  }
+
+  .card-icon,
+  .avatar {
+    width: 29px;
+    height: 29px;
+
+    min-width: 29px;
+  }
+
+  .floating-card strong {
+    font-size: 9px;
+  }
+
+  .floating-card small {
+    font-size: 7px;
+  }
+}
+
+/* ========================================
+   VERY SMALL PHONES
+   <= 360px
+======================================== */
+
+@media (max-width: 360px) {
+
+  .nav-actions a {
+    padding: 7px 8px;
+
+    font-size: 9px;
+  }
+
+  .hero {
+    padding-top: 45px;
+  }
+
+  .hero h1 {
+    font-size: 39px;
+
+    letter-spacing: -2px;
+  }
+
+  .hero-buttons {
+    flex-direction: column;
+
+    align-items: stretch;
+
+    max-width: 250px;
+
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .hero-buttons a {
+    width: 100%;
+  }
+
+  .hero-visual {
+    height: 300px;
+
+    min-height: 280px;
+  }
+
+  .scene {
+    width: 285px;
+    height: 285px;
+
+    min-width: 285px;
+    min-height: 285px;
+  }
+
+  .floating-card {
+    padding: 8px;
+  }
+}
+
+/* ========================================
+   LARGE SCREENS
+   >= 1440px
+======================================== */
+
+@media (min-width: 1440px) {
+
+  .navbar {
+    margin-top: 30px;
+  }
+
+  .hero {
+    gap: 100px;
+  }
+
+  .hero h1 {
+    font-size: 92px;
+  }
+
+  .description {
+    font-size: 17px;
+  }
+}
+
+/* ========================================
+   REDUCED MOTION
+======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+
+    scroll-behavior: auto !important;
+  }
+}
+
