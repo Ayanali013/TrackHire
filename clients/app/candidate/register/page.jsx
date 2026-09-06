@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import styles from "./register.module.css";
 
 export default function CandidateRegister() {
   const [name, setName] = useState("");
@@ -27,33 +28,33 @@ export default function CandidateRegister() {
   };
 
   return (
-    <main className="register-page">
+    <main className={styles.registerPage}>
       {/* Background Effects */}
-      <div className="register-glow register-glow-one"></div>
-      <div className="register-glow register-glow-two"></div>
+      <div className={styles.registerGlow + " " + styles.registerGlowOne}></div>
+      <div className={styles.registerGlow + " " + styles.registerGlowTwo}></div>
 
-      <div className="register-shape register-shape-one"></div>
-      <div className="register-shape register-shape-two"></div>
-      <div className="register-shape register-shape-three"></div>
+      <div className={styles.registerShape + " " + styles.registerShapeOne}></div>
+      <div className={styles.registerShape + " " + styles.registerShapeTwo}></div>
+      <div className={styles.registerShape + " " + styles.registerShapeThree}></div>
 
       {/* Navbar */}
-      <nav className="register-navbar">
-        <Link href="/" className="register-logo">
+      <nav className={styles.registerNavbar}>
+        <Link href="/" className={styles.registerLogo}>
           Track<span>Hire</span>
         </Link>
 
-        <Link href="/candidate/login" className="switch-role">
+        <Link href="/candidate/login" className={styles.switchRole}>
           Candidate Login →
         </Link>
       </nav>
 
       {/* Main Content */}
-      <section className="register-container">
+      <section className={styles.registerContainer}>
 
         {/* Left Visual Section */}
-        <div className="register-visual">
-          <div className="register-visual-content">
-            <p className="register-tagline">
+        <div className={styles.registerVisual}>
+          <div className={styles.registerVisualContent}>
+            <p className={styles.registerTagline}>
               START YOUR JOURNEY
             </p>
 
@@ -72,14 +73,14 @@ export default function CandidateRegister() {
           </div>
 
           {/* 3D Scene */}
-          <div className="register-scene">
-            <div className="register-orb"></div>
+          <div className={styles.registerScene}>
+            <div className={styles.registerOrb}></div>
 
-            <div className="register-ring register-ring-a"></div>
-            <div className="register-ring register-ring-b"></div>
-            <div className="register-ring register-ring-c"></div>
+            <div className={styles.registerRing + " " + styles.registerRingA}></div>
+            <div className={styles.registerRing + " " + styles.registerRingB}></div>
+            <div className={styles.registerRing + " " + styles.registerRingC}></div>
 
-            <div className="register-mini-card register-mini-card-one">
+            <div className={styles.registerMiniCard + " " + styles.registerMiniCardOne}>
               <span>✓</span>
 
               <div>
@@ -88,7 +89,7 @@ export default function CandidateRegister() {
               </div>
             </div>
 
-            <div className="register-mini-card register-mini-card-two">
+            <div className={styles.registerMiniCard + " " + styles.registerMiniCardTwo}>
               <span>★</span>
 
               <div>
@@ -100,10 +101,10 @@ export default function CandidateRegister() {
         </div>
 
         {/* Register Card */}
-        <div className="register-card">
+        <div className={styles.registerCard}>
 
-          <div className="register-card-header">
-            <div className="candidate-icon">
+          <div className={styles.registerCardHeader}>
+            <div className={styles.candidateIcon}>
               C
             </div>
 
@@ -113,14 +114,14 @@ export default function CandidateRegister() {
             </div>
           </div>
 
-          <p className="register-description">
+          <p className={styles.registerDescription}>
             Create your account and start exploring opportunities.
           </p>
 
           <form onSubmit={handleRegister}>
 
             {/* Name */}
-            <div className="input-group">
+            <div className={styles.inputGroup}>
               <label htmlFor="name">
                 Full Name
               </label>
@@ -136,7 +137,7 @@ export default function CandidateRegister() {
             </div>
 
             {/* Email */}
-            <div className="input-group">
+            <div className={styles.inputGroup}>
               <label htmlFor="email">
                 Email
               </label>
@@ -152,7 +153,7 @@ export default function CandidateRegister() {
             </div>
 
             {/* Password */}
-            <div className="input-group">
+            <div className={styles.inputGroup}>
               <label htmlFor="password">
                 Password
               </label>
@@ -168,7 +169,7 @@ export default function CandidateRegister() {
             </div>
 
             {/* Confirm Password */}
-            <div className="input-group">
+            <div className={styles.inputGroup}>
               <label htmlFor="confirmPassword">
                 Confirm Password
               </label>
@@ -188,7 +189,7 @@ export default function CandidateRegister() {
             {/* Register Button */}
             <button
               type="submit"
-              className="register-submit"
+              className={styles.registerSubmit}
             >
               Create Account
               <span>→</span>
@@ -197,7 +198,7 @@ export default function CandidateRegister() {
           </form>
 
           {/* Login Link */}
-          <div className="login-link">
+          <div className={styles.loginLink}>
             <span>Already have an account?</span>
 
             <Link href="/candidate/login">
