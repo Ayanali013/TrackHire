@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import styles from "./login.module.css";
 
 
 export default function CandidateLogin() {
@@ -48,36 +49,36 @@ router.push("/candidate/dashboard");
     <main className="login-page">
 
       {/* Background */}
-      <div className="login-glow login-glow-one"></div>
-      <div className="login-glow login-glow-two"></div>
+      <div className={styles["login-glow"] + " " + styles["login-glow-one"]}></div>
+      <div className={styles["login-glow"] + " " + styles["login-glow-two"]}></div>
 
       {/* Floating 3D Objects */}
-      <div className="login-shape shape-one"></div>
-      <div className="login-shape shape-two"></div>
-      <div className="login-shape shape-three"></div>
+      <div className={styles["login-shape"] + " " + styles["shape-one"]}></div>
+      <div className={styles["login-shape"] + " " + styles["shape-two"]}></div>
+      <div className={styles["login-shape"] + " " + styles["shape-three"]}></div>
 
       {/* Navbar */}
-      <nav className="login-navbar">
+      <nav className={styles["login-navbar"]}>
 
-        <Link href="/" className="login-logo">
+        <Link href="/" className={styles["login-logo"]}>
           Track<span>Hire</span>
         </Link>
 
-        <Link href="/recruiter/login" className="switch-role">
+        <Link href="/recruiter/login" className={styles["switch-role"]}>
           Recruiter Login →
         </Link>
 
       </nav>
 
       {/* Main */}
-      <section className="login-container">
+      <section className={styles["login-container"]}>
 
         {/* Left Visual */}
-        <div className="login-visual">
+        <div className={styles["login-visual"]}>
 
-          <div className="visual-content">
+          <div className={styles["visual-content"]}>
 
-            <p className="login-tagline">
+            <p className={styles["login-tagline"]}>
               WELCOME BACK
             </p>
 
