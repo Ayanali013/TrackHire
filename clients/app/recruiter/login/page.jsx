@@ -38,9 +38,12 @@ export default function RecruiterLogin() {
 
     localStorage.setItem("token", data.token);
 
-    if (data.user?.role !== "recruiter") {
-      localStorage.removeItem("token");
-      throw new Error("This account is not a recruiter account.");
+    // if (data.user?.role !== "recruiter") {
+    //   localStorage.removeItem("token");
+    //   throw new Error("This account is not a recruiter account.");
+    // }
+      if (data.user) {
+      localStorage.setItem("user", JSON.stringify(data.user));
     }
 
     router.push("/recruiter/dashboard");
