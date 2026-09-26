@@ -21,6 +21,7 @@ export default function RecruiterLogin() {
         headers: {
           "Content-Type": "application/json",
         },
+        credentials: "include",
         body: JSON.stringify({
           email,
           password,
