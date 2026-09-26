@@ -10,12 +10,12 @@ export default function RecruiterLogin() {
   const [password, setPassword] = useState("");
    const router = useRouter();
 
-  const handleLogin = async (e) => {
+  const handleRecruiterLogin = async (e) => {
   e.preventDefault();
 
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/auth/login`,
+      `${process.env.NEXT_PUBLIC_API_URL}/api/auth/recruiter/login`,
       {
         method: "POST",
         headers: {
@@ -171,7 +171,7 @@ export default function RecruiterLogin() {
             Login to manage your jobs and candidates.
           </p>
 
-          <form onSubmit={handleLogin}>
+          <form onSubmit={handleRecruiterLogin}>
             {/* Email */}
             <div className={styles.inputGroup}>
               <label htmlFor="email">
