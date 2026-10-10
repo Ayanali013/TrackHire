@@ -56,6 +56,7 @@ const getJob = async (req, res) => {
     });
 
     console.log(searchJob);
+    
 
     if (!searchJob) {
       return res.status(404).json({
