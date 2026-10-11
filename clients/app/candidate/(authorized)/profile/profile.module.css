@@ -1,787 +1,793 @@
 
-/* =========================================================
-   PROFILE PAGE
-========================================================= */
+/* =========================================
+   TRACKHIRE CANDIDATE PROFILE
+   Scoped page styles
+========================================= */
 
-.profilePage {
+.page {
+  --accent: #5146e5;
+  --accent-light: #8b83ff;
+  --bg: #0b0e17;
+  --panel: #111522;
+  --panel-hover: #151a2a;
+  --border: #252b3c;
+  --text: #f1f3fb;
+  --muted: #929bb2;
+  --green: #42d7a0;
+
   width: 100%;
+  min-width: 0;
   min-height: 100%;
-  padding: 32px;
-  background: #f8fafc;
-  box-sizing: border-box;
+  padding: 30px;
+  overflow-wrap: anywhere;
+  color: var(--text);
+  background:
+    radial-gradient(
+      ellipse at 85% 0%,
+      rgba(81, 70, 229, 0.10),
+      transparent 38%
+    ),
+    var(--bg);
 }
 
-/* =========================================================
-   PAGE HEADER
-========================================================= */
-
-.header {
-  margin-bottom: 32px;
-}
-
-.title {
-  margin: 0;
-  font-size: 30px;
-  font-weight: 700;
-  color: #0f172a;
-}
-
-.subtitle {
-  margin: 6px 0 0;
-  font-size: 14px;
-  color: #64748b;
-}
-
-/* =========================================================
-   MAIN GRID
-========================================================= */
-
-.mainGrid {
-  display: grid;
-  grid-template-columns: 300px minmax(0, 1fr);
-  gap: 24px;
+.container {
   width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
-/* =========================================================
-   COMMON CARD
-========================================================= */
+/* Page heading */
 
-.card {
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
-  border-radius: 16px;
-  padding: 24px;
-  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
-  box-sizing: border-box;
-}
-
-/* =========================================================
-   LEFT PROFILE CARD
-========================================================= */
-
-.profileCard {
-  height: fit-content;
-}
-
-.profileCenter {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-}
-
-/* =========================================================
-   AVATAR
-========================================================= */
-
-.avatarWrapper {
-  position: relative;
-}
-
-.avatar {
-  width: 112px;
-  height: 112px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  border-radius: 50%;
-
-  background: linear-gradient(
-    135deg,
-    #6366f1,
-    #9333ea
-  );
-
-  color: #ffffff;
-
-  font-size: 36px;
-  font-weight: 700;
-
-  box-shadow: 0 8px 20px rgba(79, 70, 229, 0.25);
-}
-
-.cameraButton {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-
-  width: 36px;
-  height: 36px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  border: 4px solid #ffffff;
-  border-radius: 50%;
-
-  background: #4f46e5;
-  color: #ffffff;
-
-  cursor: pointer;
-
-  transition: background 0.2s ease;
-}
-
-.cameraButton:hover {
-  background: #4338ca;
-}
-
-/* =========================================================
-   PROFILE NAME
-========================================================= */
-
-.profileName {
-  margin: 16px 0 0;
-
-  font-size: 20px;
-  font-weight: 700;
-
-  color: #0f172a;
-}
-
-.profileRole {
-  margin: 4px 0 0;
-
-  font-size: 14px;
-  color: #64748b;
-}
-
-/* =========================================================
-   VERIFIED BADGE
-========================================================= */
-
-.verified {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-
-  margin-top: 16px;
-
-  padding: 8px 16px;
-
-  border-radius: 999px;
-
-  background: #eef2ff;
-  color: #4f46e5;
-
-  font-size: 14px;
-  font-weight: 500;
-}
-
-/* =========================================================
-   CONTACT INFORMATION
-========================================================= */
-
-.contact {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-
-  margin-top: 32px;
-  padding-top: 24px;
-
-  border-top: 1px solid #f1f5f9;
-}
-
-.infoRow {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-
-  min-width: 0;
-
-  font-size: 14px;
-  color: #475569;
-}
-
-.infoIcon {
-  flex-shrink: 0;
-  color: #94a3b8;
-}
-
-.infoText {
-  min-width: 0;
-
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-/* =========================================================
-   RIGHT CONTENT
-========================================================= */
-
-.rightContent {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-
-  min-width: 0;
-}
-
-/* =========================================================
-   SECTION
-========================================================= */
-
-.section {
-  width: 100%;
-}
-
-.sectionHeader {
+.pageHeader {
   display: flex;
   align-items: center;
   justify-content: space-between;
-
-  gap: 16px;
-
-  margin-bottom: 24px;
+  gap: 24px;
+  margin-bottom: 28px;
 }
 
-.sectionHeading {
-  min-width: 0;
+.eyebrow {
+  display: block;
+  margin-bottom: 10px;
+  color: var(--accent-light);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 2px;
 }
 
-.sectionTitle {
+.pageHeader h1 {
   margin: 0;
-
-  font-size: 18px;
-  font-weight: 600;
-
-  color: #0f172a;
+  font-size: clamp(27px, 3vw, 36px);
+  font-weight: 800;
+  letter-spacing: -1.2px;
 }
 
-.sectionDescription {
-  margin: 4px 0 0;
+.pageHeader h1 span {
+  color: var(--accent-light);
+}
 
+.pageHeader p {
+  margin: 10px 0 0;
+  color: var(--muted);
   font-size: 14px;
-  color: #64748b;
+  line-height: 1.7;
 }
 
-/* =========================================================
-   BUTTONS
-========================================================= */
+/* Buttons */
 
-.editButton,
-.saveButton {
-  display: flex;
+.primaryButton,
+.secondaryButton,
+.cancelButton {
+  display: inline-flex;
+  min-height: 42px;
   align-items: center;
   justify-content: center;
-
-  gap: 8px;
-
-  flex-shrink: 0;
-
-  padding: 10px 16px;
-
-  border: none;
-  border-radius: 8px;
-
-  font-size: 14px;
-  font-weight: 500;
-
+  gap: 9px;
+  padding: 0 17px;
+  border-radius: 9px;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
   cursor: pointer;
-
   transition:
-    background 0.2s ease,
-    transform 0.1s ease;
+    background 180ms ease,
+    border-color 180ms ease,
+    transform 180ms ease;
 }
 
-.editButton {
-  background: #4f46e5;
-  color: #ffffff;
+.primaryButton {
+  border: 1px solid #6559f2;
+  background: var(--accent);
+  color: white;
+  box-shadow: 0 5px 20px rgba(81, 70, 229, 0.18);
 }
 
-.editButton:hover {
-  background: #4338ca;
+.primaryButton:hover:not(:disabled) {
+  background: #6257f2;
+  transform: translateY(-1px);
 }
 
-.saveButton {
-  background: #059669;
-  color: #ffffff;
+.secondaryButton,
+.cancelButton {
+  border: 1px solid var(--border);
+  background: #171c2b;
+  color: var(--text);
 }
 
-.saveButton:hover {
-  background: #047857;
+.secondaryButton:hover,
+.cancelButton:hover:not(:disabled) {
+  border-color: var(--accent-light);
+  background: var(--panel-hover);
 }
 
-.editButton:active,
-.saveButton:active,
-.cameraButton:active {
-  transform: scale(0.98);
+.primaryButton:disabled,
+.cancelButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
-/* =========================================================
-   INPUT GRID
-========================================================= */
+/* Profile hero */
 
-.inputGrid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 20px;
-}
-
-/* =========================================================
-   INPUT FIELD
-========================================================= */
-
-.inputGroup {
-  width: 100%;
-  min-width: 0;
-}
-
-.inputLabel {
-  display: block;
-
-  margin-bottom: 8px;
-
-  font-size: 14px;
-  font-weight: 500;
-
-  color: #334155;
-}
-
-.inputWrapper {
+.heroCard {
   position: relative;
-  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  min-width: 0;
+  margin-bottom: 24px;
+  padding: 30px;
+  overflow: hidden;
+  border: 1px solid #30304f;
+  border-radius: 16px;
+  background: linear-gradient(
+    115deg,
+    #17172a 0%,
+    #111522 56%,
+    #15192b 100%
+  );
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
 }
 
-.inputIcon {
+.heroGlow {
   position: absolute;
-  left: 12px;
-  top: 50%;
-
-  display: flex;
-
-  transform: translateY(-50%);
-
-  color: #94a3b8;
-
+  top: -100px;
+  right: 18%;
+  width: 240px;
+  height: 240px;
+  border-radius: 50%;
+  background: rgba(81, 70, 229, 0.14);
+  filter: blur(70px);
   pointer-events: none;
 }
 
-.input {
-  width: 100%;
-  height: 46px;
-
-  box-sizing: border-box;
-
-  padding: 0 16px 0 40px;
-
-  border: 1px solid transparent;
-  border-radius: 12px;
-
-  outline: none;
-
-  font-size: 14px;
-
-  transition:
-    border 0.2s ease,
-    box-shadow 0.2s ease,
-    background 0.2s ease;
-}
-
-.inputEditing {
-  border-color: #e2e8f0;
-  background: #ffffff;
-  color: #1e293b;
-}
-
-.inputEditing:focus {
-  border-color: #6366f1;
-
+.avatar {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  width: 88px;
+  height: 88px;
+  flex: 0 0 88px;
+  place-items: center;
+  border: 1px solid rgba(139, 131, 255, 0.55);
+  border-radius: 24px;
+  background: linear-gradient(145deg, #5146e5, #28234f);
   box-shadow:
-    0 0 0 3px rgba(99, 102, 241, 0.1);
+    0 10px 30px rgba(81, 70, 229, 0.2),
+    inset 0 1px rgba(255, 255, 255, 0.15);
 }
 
-.inputDisabled {
-  border-color: transparent;
-  background: #f8fafc;
-  color: #475569;
+.avatar span {
+  color: white;
+  font-size: 29px;
+  font-weight: 800;
+  letter-spacing: -1px;
 }
 
-/* =========================================================
-   ABOUT ME
-========================================================= */
-
-.textarea {
-  width: 100%;
-  min-height: 120px;
-
-  box-sizing: border-box;
-
-  padding: 16px;
-
-  resize: vertical;
-
-  border: 1px solid #e2e8f0;
-  border-radius: 12px;
-
-  outline: none;
-
-  background: #ffffff;
-
-  color: #334155;
-
-  font-family: inherit;
-  font-size: 14px;
-  line-height: 1.6;
-
-  transition:
-    border 0.2s ease,
-    box-shadow 0.2s ease;
+.avatar i,
+.statusLabel i {
+  display: block;
+  border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 12px rgba(66, 215, 160, 0.35);
 }
 
-.textarea:focus {
-  border-color: #6366f1;
-
-  box-shadow:
-    0 0 0 3px rgba(99, 102, 241, 0.1);
+.avatar i {
+  position: absolute;
+  right: -4px;
+  bottom: 5px;
+  width: 15px;
+  height: 15px;
+  border: 3px solid #17172a;
 }
 
-.bio {
+.heroInfo {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  min-width: 0;
+}
+
+.statusLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--green);
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 1.4px;
+}
+
+.statusLabel i {
+  width: 6px;
+  height: 6px;
+}
+
+.heroInfo h2 {
+  margin: 11px 0 5px;
+  overflow-wrap: anywhere;
+  font-size: clamp(22px, 2.5vw, 28px);
+  font-weight: 750;
+  letter-spacing: -0.6px;
+}
+
+.heroInfo > p {
   margin: 0;
-
-  padding: 16px;
-
-  border-radius: 12px;
-
-  background: #f8fafc;
-
-  color: #475569;
-
-  font-size: 14px;
+  color: #b4bad0;
+  font-size: 13px;
   line-height: 1.6;
 }
 
-/* =========================================================
-   SKILLS
-========================================================= */
-
-.skills {
+.identityMeta {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
+  gap: 10px 20px;
+  margin-top: 17px;
+}
+
+.identityMeta span {
+  color: var(--muted);
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+
+/* Profile completion */
+
+.completion {
+  position: relative;
+  z-index: 1;
+  width: 200px;
+  flex: 0 0 200px;
+  padding-left: 22px;
+  border-left: 1px solid var(--border);
+}
+
+.completionTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.completionTop span {
+  color: var(--muted);
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.completionTop strong {
+  color: var(--accent-light);
+  font-size: 23px;
+}
+
+.progressTrack {
+  height: 6px;
+  overflow: hidden;
+  border-radius: 10px;
+  background: #292d40;
+}
+
+.progressFill {
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #5146e5, #a49bff);
+  box-shadow: 0 0 12px rgba(139, 131, 255, 0.3);
+  transition: width 250ms ease;
+}
+
+.completion > p {
+  margin: 12px 0 0;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+/* Main section grid */
+
+.sectionGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+  align-items: stretch;
+}
+
+.panel {
+  min-width: 0;
+  padding: 24px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--panel);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+  transition: border-color 180ms ease;
+}
+
+.panel:hover {
+  border-color: #343955;
+}
+
+.panelHeader {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  margin-bottom: 24px;
+}
+
+.sectionIcon {
+  display: grid;
+  width: 39px;
+  height: 39px;
+  flex: 0 0 39px;
+  place-items: center;
+  border: 1px solid rgba(139, 131, 255, 0.18);
+  border-radius: 10px;
+  background: rgba(81, 70, 229, 0.12);
+  color: var(--accent-light);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.panelHeader h3 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 750;
+}
+
+.panelHeader p {
+  margin: 6px 0 0;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+/* Form fields */
+
+.formGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px 15px;
+}
+
+.field {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.field > span {
+  color: #c8cee0;
+  font-size: 11px;
+  font-weight: 650;
+}
+
+.field input,
+.field textarea {
+  box-sizing: border-box;
+  display: block;
+  width: 100%;
+  min-width: 0;
+  padding: 12px;
+  border: 1px solid #2a3043;
+  border-radius: 9px;
+  outline: none;
+  background: #0c101b;
+  color: var(--text);
+  font: inherit;
+  font-size: 12px;
+  line-height: 1.6;
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.field input::placeholder,
+.field textarea::placeholder {
+  color: #606a83;
+}
+
+.field input:focus,
+.field textarea:focus {
+  border-color: var(--accent-light);
+  box-shadow: 0 0 0 3px rgba(81, 70, 229, 0.12);
+}
+
+.field input:disabled,
+.field textarea:disabled {
+  border-color: transparent;
+  background: #151a28;
+  color: #d7dcef;
+  opacity: 1;
+  cursor: default;
+}
+
+.field input[readonly] {
+  color: #929bb2;
+  cursor: default;
+}
+
+.field textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.field small {
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+.fullWidth {
+  grid-column: 1 / -1;
+}
+
+/* Skills */
+
+.skillsList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  min-height: 40px;
 }
 
 .skill {
   display: inline-flex;
   align-items: center;
-
-  padding: 8px 16px;
-
-  border-radius: 999px;
-
-  background: #eef2ff;
-  color: #4338ca;
-
-  font-size: 14px;
-  font-weight: 500;
+  max-width: 100%;
+  padding: 8px 12px;
+  border: 1px solid rgba(139, 131, 255, 0.24);
+  border-radius: 8px;
+  background: rgba(81, 70, 229, 0.10);
+  color: #c5c0ff;
+  font-size: 11px;
+  overflow-wrap: anywhere;
 }
 
-/* =========================================================
-   RESUME
-========================================================= */
+.linksBlock {
+  display: grid;
+  gap: 18px;
+  margin-top: 24px;
+  padding-top: 22px;
+  border-top: 1px solid var(--border);
+}
 
-.resumeContainer {
+/* Resume */
+
+.resumeCard {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: 13px;
+  min-width: 0;
+  padding: 15px;
+  border: 1px solid var(--border);
+  border-radius: 11px;
+  background: #0d111d;
+}
 
-  gap: 20px;
+.resumeIcon {
+  display: grid;
+  width: 44px;
+  height: 48px;
+  flex: 0 0 44px;
+  place-items: center;
+  border: 1px solid rgba(139, 131, 255, 0.25);
+  border-radius: 8px;
+  background: rgba(81, 70, 229, 0.12);
+  color: var(--accent-light);
+  font-size: 10px;
+  font-weight: 800;
 }
 
 .resumeInfo {
   display: flex;
-  align-items: center;
-
-  gap: 16px;
-
   min-width: 0;
+  flex: 1;
+  flex-direction: column;
+  gap: 6px;
 }
 
-.resumeIcon {
-  width: 48px;
-  height: 48px;
+.resumeInfo strong {
+  font-size: 12px;
+}
 
+.resumeInfo span {
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+.emptyState {
   display: flex;
   align-items: center;
+  flex-direction: column;
   justify-content: center;
-
-  flex-shrink: 0;
-
-  border-radius: 12px;
-
-  background: #fef2f2;
-  color: #ef4444;
+  min-height: 150px;
+  padding: 20px;
+  border: 1px dashed #343951;
+  border-radius: 11px;
+  color: var(--muted);
+  text-align: center;
 }
 
-.resumeText {
-  min-width: 0;
+.emptyState strong {
+  margin-top: 8px;
+  color: #d7dcef;
+  font-size: 12px;
 }
 
-.resumeTitle {
-  margin: 0;
-
-  font-size: 16px;
-  font-weight: 600;
-
-  color: #0f172a;
+.emptyState p {
+  max-width: 260px;
+  font-size: 11px;
+  line-height: 1.7;
 }
 
-.resumeName {
-  margin: 4px 0 0;
-
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-
-  font-size: 14px;
-  color: #64748b;
+.uploadIcon {
+  display: grid;
+  width: 40px;
+  height: 40px;
+  place-items: center;
+  border-radius: 11px;
+  background: rgba(81, 70, 229, 0.12);
+  color: var(--accent-light);
+  font-size: 23px;
 }
 
-.resumeActions {
+/* Form actions */
+
+.formFooter {
   display: flex;
-  gap: 8px;
-
-  flex-shrink: 0;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 24px;
+  padding-bottom: 15px;
 }
 
-.viewButton,
-.replaceButton {
-  padding: 9px 16px;
+/* Feedback states */
 
-  border-radius: 8px;
-
-  font-size: 14px;
-  font-weight: 500;
-
-  cursor: pointer;
-
-  transition: background 0.2s ease;
+.errorBanner,
+.successBanner {
+  margin-bottom: 20px;
+  padding: 13px 16px;
+  border: 1px solid;
+  border-radius: 9px;
+  font-size: 12px;
+  line-height: 1.6;
 }
 
-.viewButton {
-  border: 1px solid #e2e8f0;
-  background: #ffffff;
-  color: #334155;
+.errorBanner {
+  border-color: #71333e;
+  background: #29151d;
+  color: #ffb4bf;
 }
 
-.viewButton:hover {
-  background: #f8fafc;
+.successBanner {
+  border-color: #245f50;
+  background: #10271f;
+  color: #75e4ba;
 }
 
-.replaceButton {
-  border: none;
-  background: #4f46e5;
-  color: #ffffff;
+.state {
+  display: flex;
+  min-height: 300px;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  gap: 12px;
+  text-align: center;
 }
 
-.replaceButton:hover {
-  background: #4338ca;
+.state h2 {
+  margin: 0;
+  font-size: 21px;
 }
 
-/* =========================================================
-   TABLET
-========================================================= */
+.state p {
+  max-width: 400px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.7;
+}
 
-@media (max-width: 1024px) {
-  .profilePage {
+.stateIcon {
+  display: grid;
+  width: 46px;
+  height: 46px;
+  place-items: center;
+  border: 1px solid #71333e;
+  border-radius: 13px;
+  background: #29151d;
+  color: #ffb4bf;
+  font-size: 23px;
+  font-weight: 800;
+}
+
+.loader {
+  width: 32px;
+  height: 32px;
+  border: 3px solid #292d40;
+  border-top-color: var(--accent-light);
+  border-radius: 50%;
+  animation: profileSpin 700ms linear infinite;
+}
+
+@keyframes profileSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Tablet */
+
+@media (max-width: 900px) {
+  .page {
     padding: 24px;
   }
 
-  .mainGrid {
-    grid-template-columns: 250px minmax(0, 1fr);
+  .heroCard {
+    flex-wrap: wrap;
     gap: 20px;
+    padding: 24px;
   }
 
-  .card {
-    padding: 20px;
+  .heroInfo {
+    flex-basis: calc(100% - 110px);
   }
 
-  .avatar {
-    width: 96px;
-    height: 96px;
-
-    font-size: 32px;
+  .completion {
+    width: 100%;
+    flex: 1 1 100%;
+    padding: 18px 0 0;
+    border-top: 1px solid var(--border);
+    border-left: 0;
   }
 
-  .inputGrid {
-    gap: 16px;
+  .completionTop {
+    max-width: 300px;
+  }
+
+  .sectionGrid {
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 
-/* =========================================================
-   MOBILE / SMALL TABLET
-========================================================= */
+/* Mobile */
 
-@media (max-width: 768px) {
-  .profilePage {
-    padding: 20px 16px;
+@media (max-width: 520px) {
+  .page {
+    padding: 18px 12px;
   }
 
-  .header {
-    margin-bottom: 24px;
-  }
-
-  .title {
-    font-size: 26px;
-  }
-
-  .mainGrid {
-    grid-template-columns: 1fr;
-    gap: 20px;
-  }
-
-  .profileCard {
-    width: 100%;
-  }
-
-  .rightContent {
-    gap: 20px;
-  }
-
-  .inputGrid {
-    grid-template-columns: 1fr;
-  }
-
-  .sectionHeader {
+  .pageHeader {
     align-items: flex-start;
     flex-direction: column;
+    gap: 18px;
+    margin-bottom: 22px;
   }
 
-  .editButton,
-  .saveButton {
+  .pageHeader .primaryButton {
     width: 100%;
   }
 
-  .resumeContainer {
-    align-items: flex-start;
-    flex-direction: column;
+  .pageHeader h1 {
+    font-size: 27px;
   }
 
-  .resumeActions {
-    width: 100%;
-  }
-
-  .viewButton,
-  .replaceButton {
-    flex: 1;
-  }
-}
-
-/* =========================================================
-   SMALL MOBILE
-========================================================= */
-
-@media (max-width: 480px) {
-  .profilePage {
-    padding: 16px 12px;
-  }
-
-  .title {
-    font-size: 23px;
-  }
-
-  .subtitle {
-    font-size: 13px;
-  }
-
-  .card {
-    padding: 16px;
-    border-radius: 14px;
-  }
-
-  .avatar {
-    width: 88px;
-    height: 88px;
-
-    font-size: 28px;
-  }
-
-  .cameraButton {
-    width: 32px;
-    height: 32px;
-  }
-
-  .profileName {
-    font-size: 18px;
-  }
-
-  .verified {
-    padding: 7px 12px;
+  .pageHeader p {
     font-size: 12px;
   }
 
-  .sectionTitle {
-    font-size: 17px;
+  .heroCard {
+    align-items: flex-start;
+    gap: 15px;
+    padding: 19px 15px;
+    border-radius: 13px;
   }
 
-  .sectionDescription {
-    font-size: 13px;
+  .avatar {
+    width: 62px;
+    height: 62px;
+    flex-basis: 62px;
+    border-radius: 17px;
   }
 
-  .input {
-    height: 44px;
+  .avatar span {
+    font-size: 23px;
   }
 
-  .skills {
+  .heroInfo {
+    flex-basis: calc(100% - 80px);
+  }
+
+  .heroInfo h2 {
+    margin-top: 9px;
+    font-size: 21px;
+  }
+
+  .heroInfo > p {
+    font-size: 12px;
+  }
+
+  .identityMeta {
     gap: 8px;
   }
 
-  .skill {
-    padding: 7px 12px;
-    font-size: 13px;
+  .identityMeta span {
+    font-size: 11px;
   }
 
-  .resumeInfo {
-    width: 100%;
+  .panel {
+    padding: 18px 14px;
+    border-radius: 12px;
   }
 
-  .resumeIcon {
-    width: 42px;
-    height: 42px;
+  .panelHeader {
+    gap: 11px;
+    margin-bottom: 20px;
   }
 
-  .resumeName {
-    max-width: 200px;
+  .formGrid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 17px;
   }
 
-  .resumeActions {
-    flex-direction: column;
+  .fullWidth {
+    grid-column: auto;
   }
 
-  .viewButton,
-  .replaceButton {
+  .formFooter {
+    position: sticky;
+    bottom: 0;
+    z-index: 2;
+    margin: 20px -12px -18px;
+    padding: 12px;
+    border-top: 1px solid var(--border);
+    background: #0b0e17;
+  }
+
+  .formFooter button {
+    flex: 1;
+    padding-inline: 10px;
+  }
+
+  .resumeCard {
+    flex-wrap: wrap;
+  }
+
+  .secondaryButton {
     width: 100%;
   }
 }
 
-/* =========================================================
-   VERY SMALL DEVICES
-========================================================= */
-
-@media (max-width: 360px) {
-  .profilePage {
-    padding: 12px 8px;
+@media (prefers-reduced-motion: reduce) {
+  .loader {
+    animation: none;
   }
 
-  .card {
-    padding: 14px;
-  }
-
-  .contact {
-    gap: 14px;
-  }
-
-  .infoRow {
-    font-size: 13px;
-  }
-
-  .resumeName {
-    max-width: 160px;
+  .page *,
+  .page *::before,
+  .page *::after {
+    scroll-behavior: auto;
+    transition: none;
   }
 }
