@@ -1,7 +1,6 @@
-
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./profile.module.css";
 
 const API_URL =
@@ -22,47 +21,14 @@ const EMPTY_PROFILE = {
 };
 
 function normalizeProfile(data) {
-  const user = data?.profile ?? data?.user ?? data;
+  const user = data?.profile || data?.user || data;
 
   return {
     ...EMPTY_PROFILE,
-    name: user?.name ?? "",
-    email: user?.email ?? "",
-    phone: user?.phone ?? "",
-    location: user?.location ?? "",
-    headline: user?.headline ?? "",
-    education: user?.education ?? "",
-    bio: user?.bio ?? "",
-    skills: Array.isArray(user?.skills)
-      ? user.skills
-      : typeof user?.skills === "string"
-        ? user.skills.split(",").map((skill) => skill.trim()).filter(Boolean)
-        : [],
-    resumeUrl: user?.resumeUrl ?? user?.resume ?? "",
-    linkedin: user?.linkedin ?? "",
-    github: user?.github ?? "",
+    ...user,
+    skills: Array.isArray(user?.skills) ? user.skills : [],
+    resumeUrl: user?.resumeUrl || user?.resume || "",
   };
-}
-
-function getCompletion(profile) {
-  const fields = [
-    profile.name,
-    profile.phone,
-    profile.location,
-    profile.headline,
-    profile.education,
-    profile.bio,
-    profile.skills.length > 0 ? "yes" : "",
-    profile.resumeUrl,
-    profile.linkedin,
-    profile.github,
-  ];
-
-  return Math.round(
-    (fields.filter((value) => String(value || "").trim()).length /
-      fields.length) *
-      100
-  );
 }
 
 export default function CandidateProfilePage() {
@@ -72,56 +38,38 @@ export default function CandidateProfilePage() {
   const [editing, setEditing] = useState(false);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
-  const [notice, setNotice] = useState("");
+  const [message, setMessage] = useState("");
 
-  const loadProfile = useCallback(async () => {
-    setLoading(true);
-    setError("");
+  useEffect(() => {
+    async function loadProfile() {
+      try {
+        const response = await fetch(`${NEXT_PUBLIC_API_URL}/api/profile`, {
+          credentials: "include",
+          cache: "no-store",
+        });
 
-    try {
-      const response = await fetch(`${API_URL}/api/users/profile`, {
-        method: "GET",
-        credentials: "include",
-        cache: "no-store",
-      });
+        if (!response.ok) {
+          throw new Error(
+            response.status === 401
+              ? "Please log in again."
+              : "Unable to load profile."
+          );
+        }
 
-      if (!response.ok) {
-        throw new Error(
-          response.status === 401
-            ? "Your session has expired. Please log in again."
-            : "Unable to load your profile."
-        );
+        const data = await response.json();
+        const user = normalizeProfile(data);
+
+        setProfile(user);
+        setForm(user);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
       }
-
-      const data = await response.json();
-      const candidate = normalizeProfile(data);
-
-      setProfile(candidate);
-      setForm(candidate);
-    } catch (err) {
-      setError(err.message || "Something went wrong.");
-    } finally {
-      setLoading(false);
     }
-  }, []);
 
-useEffect(() => {
-  fetch(`${API_URL}/api/users/profile`, {
-    credentials: "include",
-    cache: "no-store",
-  })
-    .then((res) => {
-      if (!res.ok) throw new Error("Failed to load profile");
-      return res.json();
-    })
-    .then((data) => {
-      const user = normalizeProfile(data);
-      setProfile(user);
-      setForm(user);
-    })
-    .catch((err) => setError(err.message))
-    .finally(() => setLoading(false));
-}, []);
+    loadProfile();
+  }, []);
 
   function handleChange(event) {
     const { name, value } = event.target;
@@ -130,15 +78,13 @@ useEffect(() => {
       ...previous,
       [name]: value,
     }));
-
-    setNotice("");
   }
 
   async function handleSave(event) {
     event.preventDefault();
     setSaving(true);
     setError("");
-    setNotice("");
+    setMessage("");
 
     try {
       const payload = {
@@ -148,15 +94,12 @@ useEffect(() => {
         headline: form.headline.trim(),
         education: form.education.trim(),
         bio: form.bio.trim(),
-        skills: form.skills
-          .split(",")
-          .map((skill) => skill.trim())
-          .filter(Boolean),
+        skills: form.skills,
         linkedin: form.linkedin.trim(),
         github: form.github.trim(),
       };
 
-      const response = await fetch(`${API_URL}/api/users/profile`, {
+      const response = await fetch(`${API_URL}/api/profile`, {
         method: "PUT",
         credentials: "include",
         headers: {
@@ -165,58 +108,77 @@ useEffect(() => {
         body: JSON.stringify(payload),
       });
 
-      const data = await response.json().catch(() => ({}));
+      const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.message || "Unable to save your profile.");
+        throw new Error(data.message || "Unable to save profile.");
       }
 
-      // Prefer the saved profile returned by the server.
-      const saved = data?.profile ?? data?.user;
-
-      const updated = saved
-        ? normalizeProfile(saved)
-        : { ...form, ...payload };
-
+      const updated = normalizeProfile(data);
       setProfile(updated);
       setForm(updated);
       setEditing(false);
-      setNotice(data.message || "Profile updated successfully.");
+      setMessage(data.message || "Profile updated successfully.");
     } catch (err) {
-      setError(err.message || "Unable to save your profile.");
+      setError(err.message);
     } finally {
       setSaving(false);
     }
   }
 
-  function cancelEditing() {
-    setForm(profile);
-    setEditing(false);
-    setError("");
-    setNotice("");
-  }
+  const fields = [
+    ["name", "Full name", "Enter your full name"],
+    ["phone", "Phone number", "Enter your phone number"],
+    ["location", "Location", "City, Country"],
+    ["headline", "Professional headline", "e.g. Computer Science Student"],
+    ["education", "Education", "Degree and university"],
+    ["linkedin", "LinkedIn URL", "https://linkedin.com/in/..."],
+    ["github", "GitHub URL", "https://github.com/..."],
+  ];
 
-  const completion = getCompletion(profile);
+  const completionFields = [
+    profile.name,
+    profile.phone,
+    profile.location,
+    profile.headline,
+    profile.education,
+    profile.bio,
+    profile.skills.length ? "yes" : "",
+    profile.resumeUrl,
+  ];
+
+  const completion = Math.round(
+    (completionFields.filter((value) => String(value || "").trim()).length /
+      completionFields.length) *
+      100
+  );
+
+  const initials =
+    profile.name
+      .trim()
+      .split(/\s+/)
+      .slice(0, 2)
+      .map((part) => part[0]?.toUpperCase())
+      .join("") || "C";
 
   if (loading) {
     return (
       <main className={styles.page}>
-        <div className={styles.state}>
-          <span className={styles.loader} />
-          <p>Loading your profile...</p>
-        </div>
+        <div className={styles.state}>Loading your profile...</div>
       </main>
     );
   }
 
-  if (error && !profile.email && !profile.name) {
+  if (error && !profile.name && !profile.email) {
     return (
       <main className={styles.page}>
         <div className={styles.state}>
-          <div className={styles.stateIcon}>!</div>
           <h2>Profile unavailable</h2>
-          <p role="alert">{error}</p>
-          <button className={styles.primaryButton} onClick={loadProfile}>
+          <p>{error}</p>
+          <button
+            className={styles.primaryButton}
+            onClick={() => window.location.reload()}
+          >
             Try again
           </button>
         </div>
@@ -224,24 +186,18 @@ useEffect(() => {
     );
   }
 
-  const initials = profile.name
-    .trim()
-    .split(/\s+/)
-    .slice(0, 2)
-    .map((part) => part[0]?.toUpperCase())
-    .join("") || "C";
-
   return (
     <main className={styles.page}>
       <div className={styles.container}>
-        {/* Page heading */}
         <header className={styles.pageHeader}>
           <div>
             <span className={styles.eyebrow}>
-              CANDIDATE WORKSPACE / PROFILE
+              TRACKHIRE / CANDIDATE
             </span>
-            <h1>My Profile<span>.</span></h1>
-            <p>Manage your professional identity on TrackHire.</p>
+            <h1>
+              My Profile<span>.</span>
+            </h1>
+            <p>Manage your professional identity and career details.</p>
           </div>
 
           {!editing && (
@@ -249,196 +205,119 @@ useEffect(() => {
               className={styles.primaryButton}
               onClick={() => {
                 setEditing(true);
-                setNotice("");
-                setError("");
+                setMessage("");
               }}
             >
-              <span aria-hidden="true">✎</span> Edit profile
+              ✎ Edit Profile
             </button>
           )}
         </header>
 
-        {error && (
-          <div className={styles.errorBanner} role="alert">
-            {error}
-          </div>
-        )}
+        {error && <div className={styles.error}>{error}</div>}
+        {message && <div className={styles.success}>{message}</div>}
 
-        {notice && (
-          <div className={styles.successBanner} role="status">
-            {notice}
-          </div>
-        )}
+        <section className={styles.hero}>
+          <div className={styles.avatar}>{initials}</div>
 
-        {/* Profile identity card */}
-        <section className={styles.heroCard}>
-          <div className={styles.heroGlow} />
-
-          <div className={styles.avatar}>
-            <span>{initials}</span>
-            <i aria-hidden="true" />
-          </div>
-
-          <div className={styles.heroInfo}>
-            <span className={styles.statusLabel}>
+          <div className={styles.identity}>
+            <span className={styles.status}>
               <i /> CANDIDATE ACCOUNT
             </span>
             <h2>{profile.name || "Your name"}</h2>
-            <p>{profile.headline || "Add your professional headline"}</p>
-            <div className={styles.identityMeta}>
-              <span>✉ {profile.email || "Email not available"}</span>
-              {profile.location && (
-                <span>⌖ {profile.location}</span>
-              )}
-            </div>
+            <p>{profile.headline || "Add a professional headline"}</p>
+            <span className={styles.email}>
+              {profile.email || "Email unavailable"}
+            </span>
           </div>
 
           <div className={styles.completion}>
-            <div className={styles.completionTop}>
-              <span>PROFILE STRENGTH</span>
+            <div>
+              <span>PROFILE COMPLETION</span>
               <strong>{completion}%</strong>
             </div>
-            <div
-              className={styles.progressTrack}
-              role="progressbar"
-              aria-label="Profile completion"
-              aria-valuemin={0}
-              aria-valuemax={100}
-              aria-valuenow={completion}
-            >
-              <div
-                className={styles.progressFill}
-                style={{ width: `${completion}%` }}
-              />
+            <div className={styles.progress}>
+              <span style={{ width: `${completion}%` }} />
             </div>
-            <p>
-              {completion === 100
-                ? "All profile fields are complete."
-                : "Complete your profile to present yourself better."}
-            </p>
           </div>
         </section>
 
-        {/* Editable and read-only profile sections */}
         <form onSubmit={handleSave}>
-          <div className={styles.sectionGrid}>
-            <section className={styles.panel}>
-              <div className={styles.panelHeader}>
-                <div className={styles.sectionIcon}>01</div>
+          <div className={styles.grid}>
+            <section className={styles.card}>
+              <div className={styles.cardHeading}>
+                <span>01</span>
                 <div>
                   <h3>Personal Information</h3>
                   <p>Your basic contact details</p>
                 </div>
               </div>
 
-              <div className={styles.formGrid}>
-                <label className={styles.field}>
-                  <span>Full name</span>
-                  <input
-                    name="name"
-                    value={form.name}
-                    onChange={handleChange}
-                    disabled={!editing}
-                    required
-                    maxLength={100}
-                    placeholder="Your full name"
-                  />
-                </label>
+              <div className={styles.fields}>
+                {fields.slice(0, 3).map(([name, label, placeholder]) => (
+                  <label className={styles.field} key={name}>
+                    <span>{label}</span>
+                    <input
+                      name={name}
+                      value={form[name]}
+                      onChange={handleChange}
+                      placeholder={placeholder}
+                      disabled={!editing}
+                    />
+                  </label>
+                ))}
 
                 <label className={styles.field}>
                   <span>Email address</span>
-                  <input
-                    value={profile.email}
-                    type="email"
-                    disabled
-                    readOnly
-                  />
-                  <small>Managed by your account</small>
-                </label>
-
-                <label className={styles.field}>
-                  <span>Phone number</span>
-                  <input
-                    name="phone"
-                    type="tel"
-                    value={form.phone}
-                    onChange={handleChange}
-                    disabled={!editing}
-                    maxLength={20}
-                    placeholder="Your contact number"
-                  />
-                </label>
-
-                <label className={styles.field}>
-                  <span>Location</span>
-                  <input
-                    name="location"
-                    value={form.location}
-                    onChange={handleChange}
-                    disabled={!editing}
-                    maxLength={120}
-                    placeholder="City, country"
-                  />
+                  <input value={profile.email} disabled readOnly />
                 </label>
               </div>
             </section>
 
-            <section className={styles.panel}>
-              <div className={styles.panelHeader}>
-                <div className={styles.sectionIcon}>02</div>
+            <section className={styles.card}>
+              <div className={styles.cardHeading}>
+                <span>02</span>
                 <div>
                   <h3>Professional Details</h3>
-                  <p>Education and career introduction</p>
+                  <p>Education and introduction</p>
                 </div>
               </div>
 
-              <div className={styles.formGrid}>
-                <label className={`${styles.field} ${styles.fullWidth}`}>
-                  <span>Professional headline</span>
-                  <input
-                    name="headline"
-                    value={form.headline}
-                    onChange={handleChange}
-                    disabled={!editing}
-                    maxLength={160}
-                    placeholder="e.g. Computer Science Student"
-                  />
-                </label>
+              <div className={styles.fields}>
+                {fields.slice(3, 5).map(([name, label, placeholder]) => (
+                  <label className={styles.field} key={name}>
+                    <span>{label}</span>
+                    <input
+                      name={name}
+                      value={form[name]}
+                      onChange={handleChange}
+                      placeholder={placeholder}
+                      disabled={!editing}
+                    />
+                  </label>
+                ))}
 
-                <label className={`${styles.field} ${styles.fullWidth}`}>
-                  <span>Education</span>
-                  <input
-                    name="education"
-                    value={form.education}
-                    onChange={handleChange}
-                    disabled={!editing}
-                    maxLength={200}
-                    placeholder="Degree, university, graduation year"
-                  />
-                </label>
-
-                <label className={`${styles.field} ${styles.fullWidth}`}>
+                <label className={`${styles.field} ${styles.full}`}>
                   <span>About me</span>
                   <textarea
                     name="bio"
                     value={form.bio}
                     onChange={handleChange}
+                    placeholder="Introduce yourself and your career goals..."
                     disabled={!editing}
                     rows={4}
                     maxLength={1500}
-                    placeholder="Introduce yourself, your interests, and career goals."
                   />
                   <small>{form.bio.length}/1500 characters</small>
                 </label>
               </div>
             </section>
 
-            <section className={styles.panel}>
-              <div className={styles.panelHeader}>
-                <div className={styles.sectionIcon}>03</div>
+            <section className={styles.card}>
+              <div className={styles.cardHeading}>
+                <span>03</span>
                 <div>
                   <h3>Skills & Expertise</h3>
-                  <p>Technologies and strengths</p>
+                  <p>Your technical and professional skills</p>
                 </div>
               </div>
 
@@ -446,109 +325,96 @@ useEffect(() => {
                 <label className={styles.field}>
                   <span>Skills (comma-separated)</span>
                   <textarea
-                    name="skills"
                     value={form.skills.join(", ")}
                     onChange={(event) =>
                       setForm((previous) => ({
                         ...previous,
                         skills: event.target.value
                           .split(",")
-                          .map((skill) => skill.trimStart())
+                          .map((skill) => skill.trim())
+                          .filter(Boolean)
                           .slice(0, 40),
                       }))
                     }
+                    placeholder="Java, React, Node.js"
                     rows={3}
-                    maxLength={1000}
-                    placeholder="Java, React, Node.js, MongoDB"
                   />
                 </label>
-              ) : profile.skills.length ? (
-                <div className={styles.skillsList}>
-                  {profile.skills.map((skill, index) => (
-                    <span className={styles.skill} key={`${skill}-${index}`}>
-                      {skill}
-                    </span>
-                  ))}
-                </div>
               ) : (
-                <div className={styles.emptyState}>
-                  No skills added yet.
+                <div className={styles.skills}>
+                  {profile.skills.length ? (
+                    profile.skills.map((skill, index) => (
+                      <span key={`${skill}-${index}`}>{skill}</span>
+                    ))
+                  ) : (
+                    <p className={styles.empty}>No skills added yet.</p>
+                  )}
                 </div>
               )}
 
-              <div className={styles.linksBlock}>
-                <label className={styles.field}>
-                  <span>LinkedIn URL</span>
-                  <input
-                    name="linkedin"
-                    type="url"
-                    value={form.linkedin}
-                    onChange={handleChange}
-                    disabled={!editing}
-                    maxLength={300}
-                    placeholder="https://linkedin.com/in/..."
-                  />
-                </label>
-
-                <label className={styles.field}>
-                  <span>GitHub URL</span>
-                  <input
-                    name="github"
-                    type="url"
-                    value={form.github}
-                    onChange={handleChange}
-                    disabled={!editing}
-                    maxLength={300}
-                    placeholder="https://github.com/..."
-                  />
-                </label>
+              <div className={styles.socialFields}>
+                {fields.slice(5).map(([name, label, placeholder]) => (
+                  <label className={styles.field} key={name}>
+                    <span>{label}</span>
+                    <input
+                      name={name}
+                      type="url"
+                      value={form[name]}
+                      onChange={handleChange}
+                      placeholder={placeholder}
+                      disabled={!editing}
+                    />
+                  </label>
+                ))}
               </div>
             </section>
 
-            <section className={styles.panel}>
-              <div className={styles.panelHeader}>
-                <div className={styles.sectionIcon}>04</div>
+            <section className={styles.card}>
+              <div className={styles.cardHeading}>
+                <span>04</span>
                 <div>
-                  <h3>Resume</h3>
-                  <p>Your professional document</p>
+                  <h3>My Resume</h3>
+                  <p>Your saved professional document</p>
                 </div>
               </div>
 
               {profile.resumeUrl ? (
-                <div className={styles.resumeCard}>
+                <div className={styles.resume}>
                   <div className={styles.resumeIcon}>PDF</div>
                   <div className={styles.resumeInfo}>
                     <strong>Saved resume</strong>
-                    <span>Resume associated with your profile</span>
+                    <p>Resume linked to your account</p>
                   </div>
                   <a
-                    className={styles.secondaryButton}
                     href={profile.resumeUrl}
                     target="_blank"
                     rel="noopener noreferrer"
+                    className={styles.secondaryButton}
                   >
                     View ↗
                   </a>
                 </div>
               ) : (
-                <div className={styles.emptyState}>
-                  <div className={styles.uploadIcon}>↑</div>
-                  <strong>No resume available</strong>
-                  <p>
-                    Your uploaded resume will appear here once
-                    resume storage is connected.
-                  </p>
+                <div className={styles.emptyResume}>
+                  <span>↑</span>
+                  <strong>No resume uploaded</strong>
+                  <p>Your saved resume will appear here.</p>
                 </div>
               )}
             </section>
           </div>
 
           {editing && (
-            <div className={styles.formFooter}>
+            <div className={styles.actions}>
               <button
                 type="button"
                 className={styles.cancelButton}
-                onClick={cancelEditing}
+                onClick={() => {
+                  setForm(profile);
+                  setEditing(false);
+                  setError("");
+                  setMessage("");
+                }}
                 disabled={saving}
               >
                 Cancel
@@ -559,7 +425,7 @@ useEffect(() => {
                 className={styles.primaryButton}
                 disabled={saving}
               >
-                {saving ? "Saving..." : "Save changes →"}
+                {saving ? "Saving..." : "Save Changes →"}
               </button>
             </div>
           )}

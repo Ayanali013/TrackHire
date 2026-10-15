@@ -251,7 +251,6 @@ const loginCandidate = async (req, res) => {
 
 return res.status(200).json({
   message: "Candidate login successful",
-  token: token,
   user: {
     id: user._id,
     name: user.name,
@@ -330,7 +329,7 @@ const loginRecruiter = async (req, res) => {
 });
 
 return res.status(200).json({
-  message: "Candidate login successful",
+  message: "Recruiter login successful",
   user: {
     id: user._id,
     name: user.name,
