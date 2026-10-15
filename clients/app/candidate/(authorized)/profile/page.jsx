@@ -43,7 +43,15 @@ export default function CandidateProfilePage() {
   useEffect(() => {
     async function loadProfile() {
       try {
-        const response = await fetch(`${NEXT_PUBLIC_API_URL}/api/profile`, {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          throw new Error("Please log in again.");
+        }
+
+        const response = await fetch(`${API_URL}/api/profile`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
           credentials: "include",
           cache: "no-store",
         });
@@ -87,6 +95,11 @@ export default function CandidateProfilePage() {
     setMessage("");
 
     try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        throw new Error("Please log in again.");
+      }
+
       const payload = {
         name: form.name.trim(),
         phone: form.phone.trim(),
@@ -103,6 +116,7 @@ export default function CandidateProfilePage() {
         method: "PUT",
         credentials: "include",
         headers: {
+          Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify(payload),
