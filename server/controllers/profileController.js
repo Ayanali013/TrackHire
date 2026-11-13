@@ -111,3 +111,39 @@ export const updateProfile = async (req, res) => {
     });
   }
 };
+
+// Resume Uplaod:-
+
+
+
+
+export const uploadCandidateResume = async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({
+        message: "Please select a PDF resume.",
+      });
+    }
+
+    const user = await User.findById(req.user.id);
+
+    if (!user || user.role !== "candidate") {
+      return res.status(403).json({
+        message: "Only candidates can upload resumes.",
+      });
+    }
+
+    user.resumeUrl = `/uploads/resumes/${req.file.filename}`;
+    await user.save();
+
+    return res.status(200).json({
+      message: "Resume uploaded successfully.",
+      resumeUrl: user.resumeUrl,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Resume upload failed.",
+    });
+  }
+};
+
